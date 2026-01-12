@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Projets — Maxence Dubois</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-[#f6f2ec] text-neutral-900 antialiased">
+
+<header class="fixed top-0 w-full z-40 bg-white/70 backdrop-blur border-b border-black/5">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="index.html" class="font-semibold">Maxence Dubois</a>
+    <nav class="hidden md:flex gap-8 text-sm text-neutral-700">
+      <a href="about.html">À propos</a>
+      <a href="experience.html">Exp. Pro.</a>
+      <a href="projets.html" class="font-semibold text-black">Projets</a>
+      <a href="skills.html">Compétences</a>
+      <a href="contact.html" class="bg-black text-white px-4 py-2 rounded-full">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="pt-32 max-w-6xl mx-auto px-6 py-24">
+
+  <h1 class="text-4xl font-bold mb-12">Projets techniques</h1>
+
+  <!-- ROVER -->
+  <div class="mb-20 border border-black/10 rounded-3xl bg-white p-8 shadow-lg">
+    <h2 class="text-2xl font-bold mb-2">Rover Télécommandé Haute Précision</h2>
+    <p class="text-sm text-neutral-500 mb-4">SAE — Raspberry Pi — C++</p>
+
+    <p class="text-neutral-700 mb-4">
+      Conception complète d’un système embarqué pour un rover télécommandé,
+      incluant la gestion logicielle, matérielle et la communication temps réel.
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2 text-neutral-600">
+      <li><strong>Programmation C++ :</strong> optimisation des performances sur Raspberry Pi.</li>
+      <li><strong>Vision & communication :</strong> streaming vidéo temps réel (&lt;100 ms).</li>
+      <li><strong>Asservissement :</strong> contrôle précis des moteurs (±2 cm).</li>
+    </ul>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <img src="images/rover.png" alt="Rover Télécommandé" class="h-48 w-full object-cover rounded-xl">
+      <img src="images/carterover.png" alt="Rover Télécommandé" class="h-48 w-full object-cover rounded-xl">
+    </div>
+
+    <a href="#detail-rover" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-black hover:text-[#b89058] transition-all">
+      En savoir plus →
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- METEO -->
+  <div class="mb-20 border border-black/10 rounded-3xl bg-white p-8 shadow-lg">
+    <h2 class="text-2xl font-bold mb-2">Plastron de Taekwondo Connecté</h2>
+    <p class="text-sm text-neutral-500 mb-4">PTUT — STM32 — Électronique & Qt </p>
+
+    <p class="text-neutral-700 mb-4">
+      Conception d'un système embarqué complet pour la détection d'impacts en 	temps réel, de la capture de force jusqu'à l'affichage du score sur interface logicielle.
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2 text-neutral-600">
+      <li><strong>Conception Électronique :</strong> Réalisation du schéma électrique et du routage PCB pour l'intégration de capteurs de force (FSR).</li>
+      <li><strong>Système Embarqué :</strong> Programmation sur microcontrôleur STM32 pour le traitement des signaux ADC et la communication Bluetooth (HC-06).</li>
+      <li><strong>Interface Logicielle :</strong> Développement d'une application de monitoring sous Qt (C++) pour la réception et le décodage des trames de données.</li>
+    </ul>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <img src="images/shemaelec.png" alt="Station météo - boîtier" class="h-48 w-full object-cover rounded-xl">
+      <img src="images/carteroute.png" alt="I" class="h-48 w-full object-cover rounded-xl">
+    </div>
+
+    <a href="#detail-meteo" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-black hover:text-[#b89058] transition-all">
+      En savoir plus →
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+
+  <!-- CARTE PUISSANCE -->
+  <div class="border border-black/10 rounded-3xl bg-white p-8 shadow-lg">
+    <h2 class="text-2xl font-bold mb-2">Conception de Carte de Puissance</h2>
+    <p class="text-sm text-neutral-500 mb-4">SAE — KiCad</p>
+
+    <p class="text-neutral-700 mb-4">
+      Conception complète d’une carte électronique de puissance,
+      du schéma au routage PCB.
+    </p>
+
+    <ul class="list-disc pl-5 space-y-2 text-neutral-600">
+      <li>Choix composants (MOSFETs, drivers)</li>
+      <li>Routage fortes intensités & plans de masse</li>
+      <li>Validation règles CEM</li>
+    </ul>
+
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+      <img src="images/cartepuissance.png" alt="Routage PCB Carte Puissance" class="h-48 w-full object-cover rounded-xl">
+          </div>
+
+    <a href="#detail-carte" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-black hover:text-[#b89058] transition-all">
+      En savoir plus →
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+
+</main>
+
+<footer class="py-10 text-center text-sm text-neutral-500 border-t border-black/5">
+  © 2025 — Maxence Dubois · BUT3 GEII
+</footer>
+
+</body>
+</html>
+

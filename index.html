@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxence Dubois — Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .transition-base{transition:all .3s cubic-bezier(.4,0,.2,1)}
+  </style>
+</head>
+
+<body class="bg-[#f6f2ec] text-neutral-900 antialiased">
+
+<!-- BACKGROUND -->
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -top-32 -left-32 w-[500px] h-[500px] bg-[#e7d8c6] rounded-full blur-3xl opacity-70"></div>
+  <div class="absolute top-32 -right-32 w-[500px] h-[500px] bg-[#d6e6df] rounded-full blur-3xl opacity-70"></div>
+</div>
+
+<!-- HEADER -->
+<header class="fixed top-0 w-full z-40 bg-white/70 backdrop-blur border-b border-black/5">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+    <div class="font-semibold">Maxence Dubois</div>
+    <nav class="hidden md:flex gap-8 text-sm">
+      <a href="about.html">À propos</a>
+      <a href="experience.html">Exp. Pro.</a>
+      <a href="projets.html">Projets</a>
+      <a href="skills.html">Compétences</a>
+      <a href="contact.html" class="bg-black text-white px-4 py-2 rounded-full">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<main class="pt-32 max-w-6xl mx-auto px-6 py-24 grid lg:grid-cols-2 gap-12 items-center">
+  <div>
+    <p class="uppercase tracking-widest text-xs text-neutral-500">
+      Portfolio étudiant — BUT3 GEII
+    </p>
+    <h1 class="mt-4 text-5xl font-extrabold">
+      Maxence Dubois<br>
+      <span class="bg-gradient-to-r from-[#b89058] to-[#d6b98c] bg-clip-text text-transparent">
+        Électronique & Systèmes embarqués
+      </span>
+    </h1>
+    <p class="mt-6 text-lg text-neutral-700 max-w-xl">
+      Étudiant passionné par l’électronique, la programmation embarquée et l’avionique.
+      Recherche un <strong>stage de 4 mois</strong>.
+    </p>
+
+    <div class="mt-10 flex gap-5">
+      <a href="projets.html" class="bg-black text-white px-7 py-3 rounded-full">Découvrir mes projets</a>
+      <a href="contact.html" class="border px-7 py-3 rounded-full">Me contacter</a>
+    </div>
+  </div>
+
+  <div class="h-96 bg-gray-200 rounded-3xl flex items-center justify-center">
+    Photo / Avatar
+  </div>
+</main>
+
+<footer class="py-10 text-center text-sm text-neutral-500 border-t">
+  © 2025 — Maxence Dubois · BUT3 GEII
+</footer>
+
+</body>
+</html>

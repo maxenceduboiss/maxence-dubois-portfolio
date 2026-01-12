@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maxence Dubois — Portfolio Électronique Embarquée</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Correction du décalage des ancres sous le bandeau fixe (Scroll Offset) */
+    /* Cette propriété est essentielle pour les liens internes et ne masque plus le haut de page */
+    :target {
+        scroll-margin-top: 6rem; /* Décalage pour tous les liens ancres ciblés */
+    }
+
+    /* Style pour les placeholders gris, y compris l'Avatar et les logos */
+    .image-placeholder {
+        width: 100%;
+        height: 100%;
+        min-height: 192px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #e5e7eb; 
+        color: #6b7280; 
+        font-size: 0.875rem;
+        font-weight: 500;
+        border-radius: 0.75rem;
+        border: 1px solid #d1d5db;
+        text-align: center;
+        padding: 1rem;
+    }
+    .logo-placeholder {
+        height: 80px; 
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f3f4f6; 
+        color: #6b7280;
+        font-size: 0.75rem;
+        font-weight: 500;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e7eb;
+        text-align: center;
+        padding: 0.5rem;
+        margin: auto;
+    }
+    .small-logo-placeholder { /* Pour les logos à côté des titres */
+        height: 32px;
+        width: 32px;
+        border-radius: 0.5rem;
+        background-color: #e5e7eb;
+        border: 1px solid #d1d5db;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.65rem;
+        color: #6b7280;
+        vertical-align: middle;
+        margin-left: 0.5rem;
+        flex-shrink: 0;
+    }
+    /* Style spécifique pour la photo de contact */
+    .contact-photo-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: #e5e7eb;
+        border: 4px solid white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #6b7280;
+        font-weight: 600;
+    }
+    /* Classe de base pour toutes les transitions */
+    .transition-base {
+        transition-property: all;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 300ms;
+    }
+  </style>
+</head>
+<body class="bg-[#f6f2ec] text-neutral-900 antialiased">
+
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-[500px] h-[500px] bg-[#e7d8c6] rounded-full blur-3xl opacity-70"></div>
+    <div class="absolute top-32 -right-32 w-[500px] h-[500px] bg-[#d6e6df] rounded-full blur-3xl opacity-70"></div>
+    <div class="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-[#f0dfc7] rounded-full blur-3xl opacity-70"></div>
+  </div>
+
+  <header class="fixed top-0 left-0 w-full z-40 bg-white/70 backdrop-blur border-b border-black/5">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-[#c9a97c] to-[#e8d5b7] text-black flex items-center justify-center font-bold">M</div>
+        <div class="font-semibold tracking-wide">Maxence Dubois</div>
+      </div>
+      
+      <nav class="hidden md:flex gap-8 text-sm text-neutral-700">
+        <a href="#about" class="hover:text-black transition-base">À propos</a>
+        <a href="#exp-pro" class="hover:text-black transition-base">Exp. Pro.</a>
+        <a href="#projets" class="hover:text-black transition-base">Projets</a>
+        <a href="#skills" class="hover:text-black transition-base">Compétences</a>
+        <a href="#contact" class="bg-black text-white px-4 py-2 rounded-full hover:bg-neutral-800 transition-base">Contact</a>
+      </nav>
+      
+      <button id="menu-button" class="md:hidden p-2 text-neutral-700 hover:text-black transition-base">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        </svg>
+      </button>
+      
+    </div>
+
+    <div id="menu-mobile" class="hidden md:hidden w-full border-t border-black/5 bg-white/90 backdrop-blur">
+        <nav class="flex flex-col gap-3 px-6 py-4 text-sm text-neutral-700">
+            <a href="#about" class="hover:text-black transition-base py-1">À propos</a>
+            <a href="#exp-pro" class="hover:text-black transition-base py-1">Exp. Pro.</a>
+            <a href="#projets" class="hover:text-black transition-base py-1">Projets</a>
+            <a href="#skills" class="hover:text-black transition-base py-1">Compétences</a>
+            <a href="#contact" class="bg-black text-white px-4 py-2 rounded-full text-center hover:bg-neutral-800 transition-base mt-2">Contact</a>
+        </nav>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center py-24 relative">
+
+      <div class="absolute inset-0 -z-10">
+        <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1517430852955-40898687095c')] bg-cover bg-center opacity-[0.08]"></div>
+      </div>
+
+      <div>
+        <p class="uppercase tracking-widest text-xs text-neutral-500">Portfolio étudiant — BUT3 GEII</p>
+        <h1 class="mt-4 text-4xl md:text-6xl font-extrabold leading-tight">
+          Maxence Dubois<br>
+          <span class="bg-gradient-to-r from-[#b89058] to-[#d6b98c] bg-clip-text text-transparent inline-flex items-center">
+              Électronique & Systèmes Embarqués
+              <div class="small-logo-placeholder !w-10 !h-10 ml-3">Logo Spé</div>
+          </span>
+        </h1>
+        <p class="mt-6 text-lg text-neutral-700 max-w-xl">Étudiant passionné par l’électronique, la programmation embarquée et l'<span class="font-semibold">avionique</span>. Je recherche un <span class="font-semibold">stage de 4 mois</span> pour appliquer mes compétences sur des systèmes intelligents et concrets.</p>
+
+        <div class="mt-10 flex gap-5">
+          <a href="#projets" class="bg-black text-white px-7 py-3 rounded-full font-semibold hover:bg-neutral-800 transition-base">Découvrir mes projets</a>
+          <a href="#contact" class="px-7 py-3 rounded-full border border-black/20 text-neutral-800 hover:bg-gray-100 transition-base">Me contacter</a>
+        </div>
+
+        <div class="mt-12 grid grid-cols-3 gap-8 text-sm">
+          <div>
+            <div class="font-semibold">Spécialité</div>
+            <div class="text-neutral-600">Systèmes embarqués</div>
+          </div>
+          <div>
+            <div class="font-semibold">Langages</div>
+            <div class="text-neutral-600">C, C++, Python, VHDL</div>
+          </div>
+          <div>
+            <div class="font-semibold">Objectif</div>
+            <div class="text-neutral-600">Stage / Alternance</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rounded-3xl h-96 flex items-center justify-center shadow-2xl border border-black/10">
+        <div class="image-placeholder w-full h-full text-lg">Emplacement Photo / Avatar</div>
+      </div>
+    </section>
+
+    <section id="about" class="max-w-6xl mx-auto px-6 py-24">
+      <h2 class="text-3xl font-bold mb-6">À propos de moi</h2>
+      <p class="text-lg text-neutral-700 max-w-4xl mb-10">
+        Étudiant en BUT GEII spécialisé en systèmes embarqués, mon objectif est de transposer mes connaissances théoriques en réalisations concrètes. Cette section vous donne un aperçu de mon profil, de mes formations et de ce qui me motive en dehors des cartes électroniques.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="p-8 border-t-4 border-[#b89058] rounded-xl bg-white shadow-lg transition-base hover:shadow-xl hover:scale-[1.01]">
+            <h3 class="text-xl font-bold mb-3">Parcours & CV</h3>
+            
+            <div class="flex items-center gap-4 mb-4">
+                <div class="logo-placeholder flex-shrink-0">Logo UM</div>
+                <p class="text-neutral-700 text-sm">
+                    BUT 3 GEII, spécialité <span class="font-semibold">Électronique et Systèmes Embarqués</span> (IUT Montpellier).
+                </p>
+            </div>
+            
+            <p class="text-neutral-700 mb-4">
+                J'ai précédemment validé une année de <span class="font-semibold">Mesures Physiques (MP)</span>.
+            </p>
+
+            <div class="mt-4 flex flex-col space-y-2">
+                <a href="#" class="text-sm font-medium text-black hover:text-[#b89058] transition-base underline">
+                    Voir le contenu de la formation BUT GEII → (Lien Affiche)
+                </a>
+                <a href="#" class="text-sm font-medium text-black hover:text-[#b89058] transition-base underline">
+                    Voir le contenu de la formation Mesures Physiques → (Lien Affiche)
+                </a>
+            </div>
+            
+            <a href="#" class="inline-flex items-center text-sm font-semibold text-white bg-black px-4 py-2 rounded-full hover:bg-neutral-800 transition-base mt-4">
+                Télécharger mon CV (PDF) →
+            </a>
+        </div>
+        
+        <div class="p-8 border-t-4 border-black/80 rounded-xl bg-white shadow-lg transition-base hover:shadow-xl hover:scale-[1.01]">
+            <h3 class="text-xl font-bold mb-3">Ma Vision & Utilité du Portfolio</h3>
+            <p class="text-neutral-700">
+                Ce portfolio est ma <span class="font-semibold">preuve de concept</span>. Il ne se contente pas de lister des technologies, mais démontre ma capacité à <span class="font-semibold">transformer une idée en produit fonctionnel</span>. L'organisation par verbes d'action (CONCEVOIR, VÉRIFIER...) montre une approche orientée vers les méthodologies industrielles.
+            </p>
+        </div>
+        
+        <div class="p-8 border-t-4 border-[#d6e6df] rounded-xl bg-white shadow-lg transition-base hover:shadow-xl hover:scale-[1.01]">
+            <h3 class="text-xl font-bold mb-3">Hobbies & Transférabilité</h3>
+            <ul class="text-neutral-700 space-y-3">
+                <li><span class="font-semibold">Aéronautique :</span> Ma passion pour l'avionique me pousse à la rigueur sur la validation des systèmes.</li>
+                <li><span class="font-semibold">Randonnée / Alpinisme :</span> Ces activités développent la <span class="font-semibold">gestion du risque</span> et la persévérance, qualités essentielles dans le développement de systèmes critiques.</li>
+            </ul>
+        </div>
+      </div>
+    </section>
+    
+    <section id="exp-pro" class="bg-white/60 py-24 border-y border-black/5">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10">Expériences Professionnelles</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <a href="#detail-blr" class="block border border-black/10 p-5 rounded-3xl bg-white shadow-lg shadow-black/5 transition-base hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] group">
+                <p class="text-sm font-medium text-neutral-500 mb-2">Stage (02-04/2025)</p>
+                <h3 class="font-semibold text-lg group-hover:text-black/80 transition-base flex items-center justify-between">
+                    Technicien Électronicien - BLR Aviation 
+                    <div class="small-logo-placeholder">Logo Exp</div>
+                </h3>
+                <p class="mt-2 text-neutral-600">Suivi d'opérations aéronautiques sur eVTOLs et garantie de la conformité électronique.</p>
+                <span class="text-sm text-black font-medium mt-4 block">Détails →</span>
+            </a>
+            <div class="p-5 border border-black/10 rounded-3xl bg-white shadow-sm flex items-center justify-center h-full transition-base hover:shadow-xl hover:scale-[1.01]">
+                <p class="text-neutral-500">Emplacement pour une future Expérience Professionnelle / Alternance.</p>
+            </div>
+        </div>
+      </div>
+    </section>
+    
+    <section id="projets" class="py-24 max-w-6xl mx-auto px-6">
+        <h2 class="text-3xl font-bold mb-10">Projets Techniques</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+          
+          <a href="#detail-rover" class="block border border-black/10 p-5 rounded-3xl bg-white shadow-sm transition-base hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] group">
+            <p class="text-sm font-medium text-neutral-500 mb-2">Projet IUT (Ptut)</p>
+            <h3 class="font-semibold text-lg group-hover:text-black/80 transition-base flex items-center justify-between">
+                Rover Télécommandé (C++ / RPi)
+                <div class="small-logo-placeholder">Logo Proj</div>
+            </h3>
+            <span class="text-sm text-black font-medium mt-4 block">Détails →</span>
+          </a>
+
+          <a href="#detail-meteo" class="block border border-black/10 p-5 rounded-3xl bg-white shadow-sm transition-base hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] group">
+            <p class="text-sm font-medium text-neutral-500 mb-2">Projet IUT (Ptut)</p>
+            <h3 class="font-semibold text-lg group-hover:text-black/80 transition-base flex items-center justify-between">
+                IoT - Capteur Pression & Météo
+                <div class="small-logo-placeholder">Logo Proj</div>
+            </h3>
+            <span class="text-sm text-black font-medium mt-4 block">Détails →</span>
+          </a>
+          
+          <a href="#detail-carte-puissance" class="block border border-black/10 p-5 rounded-3xl bg-white shadow-sm transition-base hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02] group">
+            <p class="text-sm font-medium text-neutral-500 mb-2">Projet IUT (SAE)</p>
+            <h3 class="font-semibold text-lg group-hover:text-black/80 transition-base flex items-center justify-between">
+                Conception de Carte de Puissance (KiCad)
+                <div class="small-logo-placeholder">Logo Proj</div>
+            </h3>
+            <span class="text-sm text-black font-medium mt-4 block">Détails →</span>
+          </a>
+
+          <div class="p-5 border border-black/10 rounded-3xl bg-white shadow-sm flex items-center justify-center h-full transition-base hover:shadow-xl hover:scale-[1.01]">
+                <p class="text-neutral-500">Emplacement pour un futur Projet (SAE / Ptut).</p>
+          </div>
+
+        </div>
+    </section>
+
+    <section class="max-w-6xl mx-auto px-6 py-24" id="details-realisations">
+      <h2 class="text-3xl font-bold mb-10">Détails des Réalisations</h2>
+
+      <div id="detail-blr" class="mb-20 p-8 border border-black/10 rounded-3xl bg-white shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-2xl font-bold mb-4">Stage Technicien Électronicien — BLR Aviation</h3>
+            <p class="text-sm font-medium text-neutral-500 mb-6">Février - Avril 2025 | Secteur : Mobilité Aérienne Urbaine (UAM) / Projet BLR 15</p>
+            <p class="text-neutral-700">Dans un marché à <span class="font-semibold">croissance exponentielle</span>, focalisé sur l'obtention des certifications pour les aéronefs électriques à décollage et atterrissage verticaux (<span class="font-semibold">eVTOLs</span>). J'ai opéré au cœur du processus de qualification.</p>
+            <ul class="mt-4 text-neutral-600 list-disc pl-5 space-y-2">
+                <li><span class="font-semibold">Conformité Électronique :</span> Suivi rigoureux des opérations et des procédures réglementaires pour garantir une conformité des systèmes à 100%.</li>
+                <li><span class="font-semibold">Gestion Technique :</span> Prise en charge de la gestion technique et administrative des interventions.</li>
+                <li><span class="font-semibold">Rédaction et Analyse :</span> Rédaction de rapports techniques détaillés pour accélérer les prises de décision et fluidifier le cycle d'intervention.</li>
+            </ul>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 1 : Modèle 3D / CAO du BLR 15</div>
+            </div>
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 2 : Prototype réel du BLR 15 au sol</div>
+            </div>
+        </div>
+      </div>
+
+      <div id="detail-rover" class="mb-20 p-8 border border-black/10 rounded-3xl bg-white shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-2xl font-bold mb-4">Projet IUT — Rover Télécommandé à Haute Précision</h3>
+            <p class="text-sm font-medium text-neutral-500 mb-6">2024-2025 | Plateforme : Raspberry Pi (SAE)</p>
+            <p class="text-neutral-700">Conception et développement d'un système embarqué complet pour un rover piloté à distance, axé sur la performance et la précision. J'ai géré l'intégralité de la chaîne logicielle et matérielle, du capteur au contrôle moteur.</p>
+            <ul class="mt-4 text-neutral-600 list-disc pl-5 space-y-2">
+                <li><span class="font-semibold">Programmation C++ :</span> Optimisation du code C++ sur Raspberry Pi pour des performances améliorées de +20%.</li>
+                <li><span class="font-semibold">Vision et Communication :</span> Intégration d'une caméra de profondeur et implémentation d'un streaming vidéo temps réel (&lt;100 ms). Configuration d'un point d'accès Wi-Fi sécurisé (portée 50 m).</li>
+                <li><span class="font-semibold">Asservissement Moteur :</span> Contrôle moteur via GPIO et communication série, atteignant une précision de positionnement de ±2 cm.</li>
+            </ul>
+        </div>
+
+        <div class="space-y-6">
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 1 : Rover Télécommandé (finalisé ou en action)</div>
+            </div>
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 2 : Code C++ ou interface de contrôle</div>
+            </div>
+        </div>
+      </div>
+
+      <div id="detail-meteo" class="mb-20 p-8 border border-black/10 rounded-3xl bg-white shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-2xl font-bold mb-4">Projet IUT — Capteur Pression & Station Météo Connectée</h3>
+            <p class="text-sm font-medium text-neutral-500 mb-6">Plateforme : ESP32 (Ptut) | Domaine : IoT</p>
+            <p class="text-neutral-700">Développement d'un objet connecté complet (IoT) pour la collecte et la diffusion de données environnementales en temps réel, démontrant ma maîtrise des protocoles de communication sans fil.</p>
+            <ul class="mt-4 text-neutral-600 list-disc pl-5 space-y-2">
+                <li><span class="font-semibold">Communication MQTT :</span> Utilisation du microcontrôleur ESP32 pour se connecter à un courtier MQTT.</li>
+                <li><span class="font-semibold">Capteurs et Acquisition :</span> Interface avec divers capteurs (incluant la pression) pour l'acquisition de température, humidité.</li>
+                <li><span class="font-semibold">Visualisation Web :</span> Création d'une interface web simple et responsive pour afficher les données collectées en temps réel.</li>
+            </ul>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 1 : Station Météo (boîtier + capteurs) ou PCB ESP32</div>
+            </div>
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 2 : Capture d'écran de l'interface web (données temps réel)</div>
+            </div>
+        </div>
+      </div>
+      
+      <div id="detail-carte-puissance" class="mb-20 p-8 border border-black/10 rounded-3xl bg-white shadow-lg grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+            <h3 class="text-2xl font-bold mb-4">Projet IUT — Conception de Carte de Puissance</h3>
+            <p class="text-sm font-medium text-neutral-500 mb-6">SAE | Outil principal : KiCad</p>
+            <p class="text-neutral-700">Conception complète d'une carte électronique de puissance, de la schématique au routage du circuit imprimé, pour piloter des actionneurs ou charges importantes. Ce projet met en valeur la maîtrise de la CAO électronique.</p>
+            <ul class="mt-4 text-neutral-600 list-disc pl-5 space-y-2">
+                <li><span class="font-semibold">Conception Schématique :</span> Choix des composants de puissance (MOSFETs, drivers) et dessin du schéma électrique sur KiCad.</li>
+                <li><span class="font-semibold">Routage PCB :</span> Dimensionnement des pistes pour fortes intensités, gestion des plans de masse, et respect des contraintes d'isolation.</li>
+                <li><span class="font-semibold">Simulation et Validation :</span> Vérification du respect des règles de conception pour minimiser les problèmes CEM.</li>
+            </ul>
+        </div>
+        
+        <div class="space-y-6">
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 1 : Routage du PCB sous KiCad (vue 3D ou des pistes)</div>
+            </div>
+            <div class="h-48 rounded-xl overflow-hidden">
+                <div class="image-placeholder">Image 2 : Carte de Puissance réelle ou schéma électrique principal</div>
+            </div>
+        </div>
+      </div>
+
+    </section>
+    
+    <section id="skills" class="py-24 max-w-6xl mx-auto px-6">
+      <h3 class="text-2xl font-bold">Compétences Techniques Détaillées</h3>
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <div class="border border-black/10 p-7 rounded-3xl bg-white shadow-sm transition-base hover:shadow-xl hover:scale-[1.01]">
+          <h4 class="font-semibold mb-2 text-lg">CONCEVOIR</h4>
+          <ul class="text-neutral-600 list-disc pl-5 space-y-1 text-sm">
+            <li>Conception <span class="font-semibold">PCB</span> (routage, schématique) via <span class="font-semibold">KiCad</span></li>
+            <li>Modélisation <span class="font-semibold">3D</span> (boîtiers, intégration) avec <span class="font-semibold">SolidWorks</span></li>
+            <li>Architecture <span class="font-semibold">VHDL/Verilog</span> pour <span class="font-semibold">FPGA</span> (Quartus)</li>
+          </ul>
+        </div>
+        
+        <div class="border border-black/10 p-7 rounded-3xl bg-white shadow-sm transition-base hover:shadow-xl hover:scale-[1.01]">
+          <h4 class="font-semibold mb-2 text-lg">VÉRIFIER & MAINTENIR</h4>
+          <ul class="text-neutral-600 list-disc pl-5 space-y-1 text-sm">
+            <li>Garantie de la <span class="font-semibold">Conformité Électronique</span> (Stage BLR Aviation)</li>
+            <li><span class="font-semibold">Mesures Physiques</span> et Instrumentation (issu de la formation MP)</li>
+            <li>Validation et tests de systèmes embarqués</li>
+          </ul>
+        </div>
+        
+        <div class="border border-black/10 p-7 rounded-3xl bg-white shadow-sm transition-base hover:shadow-xl hover:scale-[1.01]">
+          <h4 class="font-semibold mb-2 text-lg">INTÉGRER & IMPLANTER</h4>
+          <ul class="text-neutral-600 list-disc pl-5 space-y-1 text-sm">
+            <li>Programmation <span class="font-semibold">C/C++ embarqué</span> (Raspberry Pi, STM32)</li>
+            <li>Interfaces capteurs/actionneurs (I2C, SPI, UART, GPIO)</li>
+            <li>Protocoles de communication (<span class="font-semibold">MQTT</span>)</li>
+          </ul>
+        </div>
+        
+      </div>
+      
+      <h4 class="text-xl font-bold mt-10 mb-6 text-center">Stack Technique (Logiciels et Langages)</h4>
+      <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+        <img src="logo/logo_c++.png" alt="Logo C++" class="h-12 w-12 object-contain mx-auto">
+        <img src="logo/logo_python.png" alt="Logo Python" class="h-12 w-12 object-contain mx-auto">
+        <img src="logo/logo_kicad.png" alt="Logo kicad" class="h-12 w-12 object-contain mx-auto">
+        <img src="logo/logo_sw.jpg" alt="Logo sw" class="h-12 w-12 object-contain mx-auto">
+        <img src="logo/logo_quartus.png" alt="Logo quartus" class="h-12 w-12 object-contain mx-auto">
+        <img src="logo/logo_rasp.png" alt="Logo rasp" class="h-12 w-12 object-contain mx-auto">
+      </div>
+      </section>
+
+    <section id="contact" class="py-20 max-w-6xl mx-auto px-6">
+      <div class="border border-black/10 rounded-3xl p-12 bg-white shadow-sm transition-base hover:shadow-xl">
+        
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+
+            <div class="flex-shrink-0 mb-4 md:mb-0">
+                <div class="contact-photo-placeholder">
+                    Photo Contact
+                </div>
+            </div>
+
+            <div class="flex-grow text-center md:text-left">
+              <h4 class="text-3xl font-bold text-neutral-900 mb-2">Maxence Dubois</h4>
+              
+              <p class="text-lg text-neutral-700 mb-6">Disponible pour un stage ou une alternance, idéalement dans le secteur de l'avionique.</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-neutral-700 md:gap-x-12 md:gap-y-3">
+                
+                <div class="space-y-1">
+                    <p class="font-semibold text-black">BUT3 GEII, IUT de Montpellier</p>
+                    <p>Spécialité : Électronique et Systèmes embarqués</p>
+                    <p>Formation initiale : Mesures Physiques</p>
+                </div>
+                
+                <div class="space-y-1 pt-4 sm:pt-0">
+                    <p><span class="font-semibold">Email :</span> <a href="mailto:Dubois.maxence286@gmail.com" class="hover:text-black transition-base underline">Dubois.maxence286@gmail.com</a></p>
+                    <p><span class="font-semibold">Téléphone :</span> <a href="tel:+33615757261" class="hover:text-black transition-base underline">+33 (0)6 15 75 72 61</a></p>
+                    <p><span class="font-semibold">LinkedIn :</span> <a href="URL_LINKEDIN_A_INSERER" target="_blank" class="hover:text-black transition-base underline">Profil LinkedIn</a></p>
+                    <p><span class="font-semibold">Portfolio :</span> <a href="URL_GITHUB_OU_PROJETS_A_INSERER" target="_blank" class="hover:text-black transition-base underline">GitHub/Projets</a></p>
+                </div>
+
+              </div>
+              
+            </div>
+            
+        </div>
+      </div>
+    </section>
+
+    <footer class="py-10 text-center text-sm text-neutral-500 border-t border-black/5">
+      © 2025 — Maxence Dubois · BUT3 GEII Systèmes embarqués
+    </footer>
+
+  </main>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuButton = document.getElementById('menu-button');
+      const mobileMenu = document.getElementById('menu-mobile');
+      
+      // Fonction pour basculer la visibilité du menu
+      menuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // Ferme le menu si un lien interne est cliqué (UX mobile)
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function() {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
