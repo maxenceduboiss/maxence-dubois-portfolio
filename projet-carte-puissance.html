@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carte de Puissance — Maxence Dubois</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'DM Sans', sans-serif; }
+    h1, h2, h3 { font-family: 'DM Serif Display', serif; }
+    .transition-base { transition: all 0.3s cubic-bezier(0.4,0,0.2,1); }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events:none; z-index:100; opacity:0.4; }
+    .tag { display:inline-block; background:#f0eae0; border:1px solid #e0d0be; color:#7a6040; font-size:0.7rem; font-weight:600; padding:2px 10px; border-radius:999px; letter-spacing:0.05em; }
+    .fade-in { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
+    .fade-in.visible { opacity:1; transform:none; }
+  </style>
+</head>
+<body class="bg-[#f6f2ec] text-neutral-900 antialiased">
+
+<div class="fixed inset-0 -z-10 overflow-hidden">
+  <div class="absolute -top-40 -left-40 w-[600px] h-[600px] bg-[#f0dfc7] rounded-full blur-[80px] opacity-50"></div>
+  <div class="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-[#e7d8c6] rounded-full blur-[80px] opacity-40"></div>
+</div>
+
+<header class="fixed top-0 left-0 w-full z-40 transition-base" style="background:rgba(246,242,236,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.05);">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-2 text-sm text-neutral-500 hover:text-black transition-base group">
+      <svg class="w-4 h-4 group-hover:-translate-x-1 transition-base" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+      Retour au portfolio
+    </a>
+    <span class="text-xs text-neutral-400 font-medium uppercase tracking-widest">Projet · SAE · KiCad</span>
+  </div>
+</header>
+
+<main class="pt-24 max-w-5xl mx-auto px-6 pb-24">
+
+  <!-- HERO -->
+  <div class="mb-16">
+    <div class="flex flex-wrap gap-2 mb-5">
+      <span class="tag">SAE · KiCad</span>
+      <span class="tag">MOSFET</span>
+      <span class="tag">Routage PCB</span>
+      <span class="tag">CEM</span>
+    </div>
+    <h1 class="text-4xl md:text-5xl font-normal leading-tight mb-4">
+      Conception<br>
+      <em class="not-italic bg-gradient-to-r from-[#b89058] to-[#d6b98c] bg-clip-text text-transparent">Carte de Puissance</em>
+    </h1>
+    <p class="text-lg text-neutral-600 max-w-2xl leading-relaxed">
+      Conception complète d'une carte électronique de puissance, de la schématique au routage du circuit imprimé — pour piloter des actionneurs ou charges importantes.
+    </p>
+  </div>
+
+  <!-- IMAGE PRINCIPALE -->
+  <div class="rounded-3xl overflow-hidden shadow-xl mb-6 border border-black/8">
+    <img src="Carte_Puissance.png" alt="Carte de Puissance PCB" class="w-full object-cover" style="max-height:480px;object-position:center;">
+  </div>
+
+  <!-- STATS -->
+  <div class="grid grid-cols-3 gap-4 mb-16">
+    <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm text-center">
+      <div class="text-2xl font-bold text-[#b89058] mb-1">KiCad</div>
+      <div class="text-xs text-neutral-500 uppercase tracking-widest">Outil de conception</div>
+    </div>
+    <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm text-center">
+      <div class="text-2xl font-bold text-[#b89058] mb-1">MOSFETs</div>
+      <div class="text-xs text-neutral-500 uppercase tracking-widest">Composants de puissance</div>
+    </div>
+    <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm text-center">
+      <div class="text-2xl font-bold text-[#b89058] mb-1">CEM</div>
+      <div class="text-xs text-neutral-500 uppercase tracking-widest">Conformité électromagnétique</div>
+    </div>
+  </div>
+
+  <!-- CONTENU -->
+  <div class="grid lg:grid-cols-3 gap-10 mb-16 fade-in">
+
+    <div class="lg:col-span-2 space-y-8">
+      <div>
+        <h2 class="text-2xl mb-4">Contexte du projet</h2>
+        <p class="text-neutral-700 leading-relaxed">
+          Dans le cadre d'une SAE de BUT GEII, j'ai réalisé la conception complète d'une carte électronique de puissance. L'objectif était de maîtriser l'ensemble du processus de conception PCB : de l'analyse du besoin jusqu'à la validation des règles de conception, en passant par le choix des composants et le routage.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl mb-4">Réalisations techniques</h2>
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm">
+            <div class="flex items-start gap-3">
+              <span class="text-[#b89058] font-bold text-lg flex-shrink-0">→</span>
+              <div>
+                <h3 class="font-semibold text-sm mb-1">Conception schématique</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">Choix et validation des composants de puissance (MOSFETs, drivers de grille) en fonction des contraintes de courant et de tension. Dessin du schéma électrique complet sous KiCad avec annotations et hiérarchie de blocs.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm">
+            <div class="flex items-start gap-3">
+              <span class="text-[#b89058] font-bold text-lg flex-shrink-0">→</span>
+              <div>
+                <h3 class="font-semibold text-sm mb-1">Routage PCB fortes intensités</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">Dimensionnement des pistes de puissance en fonction des intensités nominales. Gestion des plans de masse et des zones de cuivre pour la dissipation thermique. Séparation stricte des parties puissance et commande.</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-2xl p-5 border border-black/8 shadow-sm">
+            <div class="flex items-start gap-3">
+              <span class="text-[#b89058] font-bold text-lg flex-shrink-0">→</span>
+              <div>
+                <h3 class="font-semibold text-sm mb-1">Validation CEM et règles DRC</h3>
+                <p class="text-neutral-600 text-sm leading-relaxed">Vérification des règles de conception (DRC) pour minimiser les problèmes CEM : respect des distances d'isolement, découplage des alimentations, gestion du retour de courant. Vérification du DFM (Design for Manufacturing).</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-2xl mb-4">Ce que j'ai appris</h2>
+        <p class="text-neutral-700 leading-relaxed mb-4">
+          Ce projet m'a permis de comprendre les contraintes spécifiques de l'électronique de puissance : les pistes ne se dimensionnent pas comme des signaux, les retours de courant doivent être pensés dès la conception schématique, et la thermique est une contrainte majeure du routage.
+        </p>
+        <p class="text-neutral-700 leading-relaxed">
+          La maîtrise de KiCad — du schéma au Gerber final — est une compétence clé que j'ai pu approfondir lors de mon stage chez Celectron, où j'ai conçu la carte NGNR dans un contexte aéronautique.
+        </p>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="space-y-5">
+      <div class="bg-white rounded-2xl p-6 border border-black/8 shadow-sm">
+        <h3 class="font-semibold text-sm uppercase tracking-widest text-neutral-400 mb-4">Stack technique</h3>
+        <div class="space-y-2">
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>KiCad (schéma + PCB)</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>MOSFETs / Drivers</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>Plans de masse</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>DRC / DFM</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>Contraintes CEM</span></div>
+          <div class="flex items-center gap-2 text-sm"><span class="w-2 h-2 rounded-full bg-[#b89058] flex-shrink-0"></span><span>Export Gerber</span></div>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-6 border border-black/8 shadow-sm">
+        <h3 class="font-semibold text-sm uppercase tracking-widest text-neutral-400 mb-4">Détails</h3>
+        <div class="space-y-3 text-sm text-neutral-700">
+          <div><span class="text-neutral-400 text-xs uppercase tracking-wider block mb-0.5">Type</span>SAE — Projet IUT</div>
+          <div><span class="text-neutral-400 text-xs uppercase tracking-wider block mb-0.5">Outil principal</span>KiCad</div>
+          <div><span class="text-neutral-400 text-xs uppercase tracking-wider block mb-0.5">Domaine</span>Électronique de puissance</div>
+          <div><span class="text-neutral-400 text-xs uppercase tracking-wider block mb-0.5">Lien stage</span>Carte NGNR — Celectron</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALERIE -->
+  <div class="fade-in">
+    <h2 class="text-2xl mb-6">Galerie</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <div class="rounded-2xl overflow-hidden border border-black/8 shadow-sm" style="aspect-ratio:16/9;">
+        <img src="Carte_Puissance.png" alt="Carte de puissance — PCB final" class="w-full h-full object-cover hover:scale-105 transition-base">
+      </div>
+      <div class="rounded-2xl overflow-hidden border border-black/8 shadow-sm" style="aspect-ratio:16/9;">
+        <img src="Pieces%203D.jpeg" alt="Pièces 3D associées" class="w-full h-full object-cover hover:scale-105 transition-base">
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="border-t border-black/5 py-8 text-center text-xs text-neutral-400">
+  <a href="index.html" class="inline-flex items-center gap-2 hover:text-black transition-base">
+    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18"/></svg>
+    Retour au portfolio
+  </a>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible'); }), {threshold:0.1});
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
