@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Lecteur Soutenance — Maxence Dubois</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #0f1117; color: #e8e8e8; min-height: 100vh; }
+
+  header {
+    background: #1a1d27;
+    border-bottom: 1px solid #2a2d3e;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  header h1 { font-size: 18px; font-weight: 600; color: #fff; }
+  header span { font-size: 13px; color: #7a7f99; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Player bar */
+  .player {
+    background: #1a1d27;
+    border: 1px solid #2a2d3e;
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    position: sticky;
+    top: 16px;
+    z-index: 100;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  .player-top { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+  .current-slide {
+    background: #00c9a7;
+    color: #0f1117;
+    font-weight: 700;
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    min-width: 80px;
+    text-align: center;
+  }
+  .current-title { font-size: 14px; color: #c0c4d8; flex: 1; }
+
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  button {
+    border: none; cursor: pointer; border-radius: 10px;
+    font-size: 13px; font-weight: 600; padding: 10px 18px;
+    transition: all 0.15s;
+  }
+  #btn-play  { background: #00c9a7; color: #0f1117; font-size: 15px; padding: 10px 24px; }
+  #btn-play:hover  { background: #00e0bb; }
+  #btn-prev  { background: #2a2d3e; color: #c0c4d8; }
+  #btn-next  { background: #2a2d3e; color: #c0c4d8; }
+  #btn-prev:hover, #btn-next:hover { background: #363a52; }
+  #btn-stop  { background: #3a1f2e; color: #e07099; }
+  #btn-stop:hover { background: #4a2540; }
+
+  .speed-wrap { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #7a7f99; margin-left: auto; }
+  #speed-range { width: 90px; accent-color: #00c9a7; }
+
+  /* Progress */
+  .progress-bar {
+    background: #2a2d3e;
+    border-radius: 4px;
+    height: 4px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  #progress-fill {
+    background: #00c9a7;
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s;
+    border-radius: 4px;
+  }
+  .progress-label { font-size: 11px; color: #5a5f79; margin-top: 6px; text-align: right; }
+
+  /* Slides */
+  .slide {
+    background: #1a1d27;
+    border: 1px solid #2a2d3e;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .slide:hover { border-color: #3a3f5a; background: #1e2133; }
+  .slide.active {
+    border-color: #00c9a7;
+    background: #131e1c;
+    box-shadow: 0 0 0 1px #00c9a733, 0 4px 20px rgba(0,201,167,0.1);
+  }
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .slide-num {
+    background: #2a2d3e;
+    color: #7a7f99;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 6px;
+    min-width: 36px;
+    text-align: center;
+  }
+  .slide.active .slide-num { background: #00c9a7; color: #0f1117; }
+  .slide-title { font-size: 14px; font-weight: 600; color: #c0c4d8; }
+  .slide.active .slide-title { color: #00c9a7; }
+  .slide-timing { font-size: 11px; color: #5a5f79; margin-left: auto; }
+  .slide-text { font-size: 13px; line-height: 1.75; color: #8a8fa8; }
+  .slide.active .slide-text { color: #c0c4d8; }
+
+  .playing-indicator {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 8px; height: 8px;
+    background: #00c9a7;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+    display: none;
+  }
+  .slide.active .playing-indicator { display: block; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🎙 Lecteur Soutenance</h1>
+    <span>Maxence Dubois — Celectron · BUT GEII 2025 · ~15 min</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="player">
+    <div class="player-top">
+      <div class="current-slide" id="cur-slide">Slide 1</div>
+      <div class="current-title" id="cur-title">Prêt à lire...</div>
+    </div>
+    <div class="controls">
+      <button id="btn-prev">⏮ Précédent</button>
+      <button id="btn-play">▶ Lire tout</button>
+      <button id="btn-next">Suivant ⏭</button>
+      <button id="btn-stop">⏹ Stop</button>
+      <div class="speed-wrap">
+        <span>Vitesse</span>
+        <input type="range" id="speed-range" min="0.6" max="1.4" step="0.05" value="0.95">
+        <span id="speed-val">0.95×</span>
+      </div>
+    </div>
+    <div class="progress-bar"><div id="progress-fill"></div></div>
+    <div class="progress-label" id="progress-label">0 / 17 slides</div>
+  </div>
+
+  <div id="slides-container"></div>
+
+</div>
+
+<script>
+const slides = [
+  {
+    num: "01", title: "Page de titre", timing: "~30 sec",
+    text: `Bonjour à tous. Je m'appelle Maxence Dubois, étudiant en troisième année de BUT Génie Électrique et Informatique Industrielle à l'IUT de Montpellier. Je vais vous présenter mon stage de fin d'études effectué au sein de l'entreprise Celectron, sur le développement d'une carte électronique intégrée à un banc de test de dégivrage pour hélicoptères. Ce stage représente la concrétisation de mes trois années de formation, et je suis ravi de vous en présenter les résultats.`
+  },
+  {
+    num: "02", title: "Plan de présentation", timing: "~30 sec",
+    text: `Voici le plan de ma présentation. Je vais commencer par vous présenter l'entreprise Celectron et le contexte de mon intégration, puis je décrirai le projet du banc de test de dégivrage. Ensuite, j'entrerai dans le détail de ma mission principale : la conception de la carte NGNR. Je vous parlerai ensuite de mes missions annexes, avant de conclure par un bilan de ce stage. La présentation dure environ quinze minutes, et je suis bien entendu disponible pour répondre à vos questions à la fin.`
+  },
+  {
+    num: "03", title: "Section — Présentation entreprise", timing: "~10 sec",
+    text: `Commençons par la présentation de l'entreprise et mon intégration.`
+  },
+  {
+    num: "04", title: "Présentation de Celectron", timing: "~1 min 30",
+    text: `Celectron est une PME spécialisée dans l'électronique aéronautique, fondée en 1984 et basée à Saint-Martin-de-Londres dans l'Hérault. Son activité principale, c'est la conception, la fabrication et la maintenance d'outillages de test au sol — ce qu'on appelle des valises de test — utilisés pour vérifier le bon fonctionnement des systèmes aéronautiques avant leur intégration sur avion ou hélicoptère.
+
+Son client principal est Airbus Helicopters, pour qui Celectron conçoit des équipements sur mesure répondant à des exigences très strictes de fiabilité et de traçabilité. L'entreprise intervient sur l'ensemble de la chaîne : du bureau d'études jusqu'à la livraison et la maintenance des équipements en service.
+
+Ce qui m'a particulièrement marqué, c'est la rigueur imposée par le secteur aéronautique : chaque choix technique doit être justifié, documenté, et validé. C'est un environnement très différent de ce qu'on peut rencontrer dans d'autres secteurs industriels.`
+  },
+  {
+    num: "05", title: "Intégration & contexte de la mission", timing: "~1 min",
+    text: `Mon stage s'est déroulé du 26 janvier au 15 mai 2025, soit environ quatre mois. J'ai été intégré directement au bureau d'études, où j'ai travaillé en autonomie tout en étant encadré par l'équipe technique.
+
+La méthode de travail adoptée était le cycle en V — une approche structurée qui part de la définition du besoin jusqu'à la validation finale du système. Ma mission s'inscrivait dans le projet CEL226.03, avec un livrable clairement défini : une carte électronique fonctionnelle, validée et intégrable dans le banc de test existant, conformément aux exigences d'Airbus Helicopters.`
+  },
+  {
+    num: "06", title: "Section — Banc de test", timing: "~10 sec",
+    text: `Passons maintenant à la présentation du banc de test de dégivrage.`
+  },
+  {
+    num: "07", title: "Architecture générale — Synoptique", timing: "~1 min 30",
+    text: `Le projet porte sur le développement d'un banc de test destiné à vérifier le système de dégivrage des pales des hélicoptères H175 et H225 d'Airbus Helicopters. L'objectif est de remplacer un banc existant devenu obsolète, tout en étant capable de gérer les deux types d'appareils sur un même équipement.
+
+Le banc simule le comportement électrique des pales équipées de résistances chauffantes, et permet à l'opérateur de vérifier le bon fonctionnement du système de dégivrage avant installation. L'architecture est divisée en deux grandes parties : une partie puissance, qui gère les forts courants nécessaires au chauffage des pales, et une partie commande et visualisation, qui assure le pilotage du banc et le retour d'information à l'opérateur.
+
+C'est dans cette seconde partie que s'inscrit ma mission : la carte NGNR, qui est chargée de générer les signaux de vitesse rotor nécessaires aux calculateurs de bord.`
+  },
+  {
+    num: "08", title: "Section — Carte NGNR", timing: "~10 sec",
+    text: `Entrons maintenant dans le détail de ma mission principale : la conception de la carte NGNR.`
+  },
+  {
+    num: "09", title: "Signaux NR — Spécifications", timing: "~1 min 30",
+    text: `Avant de vous parler de la conception, il est important de comprendre ce que doit produire la carte. NR signifie Normalized Rotor — c'est la vitesse de rotation du rotor exprimée en pourcentage par rapport à sa vitesse nominale. 100% NR correspond au régime de croisière.
+
+La carte doit générer deux types de signaux distincts selon l'hélicoptère testé. Pour le H175, il s'agit d'un signal carré entre 0 et 5 volts, avec 2 impulsions par tour de rotor et un rapport cyclique de 50%. Pour le H225, on attend un signal sinusoïdal différentiel de plus ou moins 5 volts, avec un taux de distorsion harmonique inférieur à 2% — ce qui impose une très bonne qualité de filtrage.
+
+Dans les deux cas, la fréquence de sortie est d'environ 4,2 Hz à 100% NR, avec une tolérance de plus ou moins 1% imposée par le cahier des charges Airbus. Ces contraintes de précision sont non-négociables en contexte aéronautique.`
+  },
+  {
+    num: "10", title: "Conception matérielle — KiCad", timing: "~1 min 30",
+    text: `La conception matérielle a débuté par une analyse approfondie de la spécification et l'étude d'un système existant datant de 2014, utilisé sur une valise BASE TEST H225. Mon rôle a été d'adapter ce schéma aux nouveaux besoins, en intégrant les deux types de signaux sur une même carte.
+
+L'architecture repose sur deux microcontrôleurs PIC18F45K22 indépendants, un pour chaque type de signal. La gestion de l'alimentation utilise des modules DC/DC isolés RECOM qui convertissent le 24V du banc en 5V logique et en plus ou moins 15V pour les étages analogiques — cette isolation galvanique est une exigence de sécurité fondamentale pour protéger l'avionique de l'hélicoptère.
+
+Tout le travail de schématique et de routage a été réalisé sous KiCad. J'ai séparé clairement les pistes de signal des zones de puissance, et ajouté des filtres actifs et des diodes de protection pour améliorer la robustesse du signal. La fabrication du prototype V1 a ensuite été confiée à un sous-traitant externe.`
+  },
+  {
+    num: "11", title: "Conception logicielle — PIC18F", timing: "~1 min 30",
+    text: `Sur le plan logiciel, chaque PIC exécute un firmware indépendant développé en C embarqué sous MPLAB XC8. Le principe de génération est commun aux deux microcontrôleurs : une table de 64 échantillons représentant une sinusoïde discrétisée est stockée en mémoire programme. À chaque interruption timer, un échantillon est envoyé vers le module PWM. Le signal PWM est ensuite filtré par un réseau RC pour reconstruire la forme d'onde analogique.
+
+Pour le H175, le premier PIC alterne entre deux profils de forme d'onde via une logique de comptage interne, ce qui produit le signal double dent à 2 impulsions par tour. Pour le H225, le second PIC lit la table en boucle continue et produit un sinus pur à environ 4 volts RMS.
+
+La sélection du signal actif est gérée au niveau matériel par un relais de commutation, sans aucun échange logiciel entre les deux PIC — ce qui garantit un comportement déterministe et fiable.`
+  },
+  {
+    num: "12", title: "Problèmes rencontrés & solutions", timing: "~1 min",
+    text: `La phase de tests a mis en évidence plusieurs problèmes sur le prototype V1, que j'ai dû analyser et corriger.
+
+Le premier problème concernait le relais de commutation entre les deux générateurs. Initialement dimensionné pour 1 ampère, il s'est dégradé lors des essais. Après analyse, il a été remplacé par un modèle 8 ampères.
+
+Deuxième problème : l'oscillateur des microcontrôleurs. Le montage à base de quartz et de portes logiques 74LS04 ne démarrait pas de façon fiable. Les mesures à l'oscilloscope ont montré que ces composants n'étaient pas adaptés — ils ont été remplacés par des 74HCU04, des inverseurs non bufferisés mieux adaptés à la génération d'oscillateurs quartz.
+
+Enfin, un problème mécanique : la carte V1 ne rentrait pas dans la baie du banc de test. Cela a nécessité une reprise complète du routage PCB, conduisant à la version V2. La validation de la V2 n'a pas pu être réalisée avant la fin du stage — elle sera poursuivie par le bureau d'études.`
+  },
+  {
+    num: "13", title: "Section — Missions annexes", timing: "~10 sec",
+    text: `Je vais maintenant vous présenter rapidement mes missions annexes.`
+  },
+  {
+    num: "14", title: "Missions annexes", timing: "~1 min 30",
+    text: `En parallèle de la conception de la carte NGNR, j'ai contribué à plusieurs autres missions au sein du bureau d'études.
+
+Sous AutoCAD, j'ai réalisé des plans de câblage cotés et des nomenclatures pour différentes valises de test. Ce travail demande une grande rigueur, car une erreur de repérage peut engendrer des retards en production.
+
+Sous SolidWorks, j'ai participé à la modélisation mécanique 3D du boîtier du banc de test, avec des assemblages paramétriques permettant de valider l'encombrement des composants avant fabrication.
+
+Enfin, j'ai utilisé l'impression 3D en PLA pour fabriquer rapidement des pièces de fixation et des supports de carte adaptés. Cette technologie s'est révélée très utile pour tester physiquement des solutions de montage avant leur validation finale, en évitant des coûts d'usinage inutiles.`
+  },
+  {
+    num: "15", title: "Section — Bilan", timing: "~10 sec",
+    text: `Pour finir, voici le bilan de ce stage.`
+  },
+  {
+    num: "16", title: "Compétences acquises", timing: "~1 min",
+    text: `Ce stage m'a permis de renforcer et d'élargir mes compétences sur plusieurs axes.
+
+En électronique, j'ai concrètement appliqué KiCad pour la conception d'un PCB industriel complet — schéma, empreintes, routage — avec des contraintes réelles de compatibilité électromagnétique et d'isolation. En programmation embarquée, j'ai approfondi l'utilisation des timers, interruptions et PWM sur PIC18F en C, avec une contrainte forte de génération temps réel. En mécanique, j'ai consolidé mes compétences SolidWorks et AutoCAD dans un contexte industriel. Et en gestion de projet, j'ai appliqué le cycle en V, participé à des revues de conception, et rédigé un rapport technique conforme aux exigences du secteur.`
+  },
+  {
+    num: "17", title: "Bilan & Conclusion", timing: "~1 min",
+    text: `Pour conclure, ce stage a été une expérience très enrichissante, à la fois sur le plan technique et humain. J'ai pu participer à un projet industriel complet, de l'analyse du besoin jusqu'aux tests de validation, dans un environnement aéronautique exigeant.
+
+La carte V1 a été testée et analysée, et la version V2 est en cours de production. Les compétences que j'ai développées — KiCad, PIC18F, SolidWorks, AutoCAD, impression 3D — complètent parfaitement ma formation de BUT GEII et m'ont confirmé mon attrait pour l'électronique embarquée et l'aéronautique.
+
+Ce stage marque la fin de mon BUT GEII et constitue une base solide pour la suite de mon parcours en école d'ingénieur.
+
+Je vous remercie de votre attention, et je suis disponible pour répondre à vos questions.`
+  }
+];
+
+let currentIdx = 0;
+let isPlaying = false;
+let utterance = null;
+
+// Build slides
+const container = document.getElementById('slides-container');
+slides.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'slide' + (i === 0 ? ' active' : '');
+  div.id = 'slide-' + i;
+  div.innerHTML = `
+    <div class="playing-indicator"></div>
+    <div class="slide-header">
+      <div class="slide-num">${s.num}</div>
+      <div class="slide-title">${s.title}</div>
+      <div class="slide-timing">⏱ ${s.timing}</div>
+    </div>
+    <div class="slide-text">${s.text.replace(/\n\n/g, '<br><br>')}</div>
+  `;
+  div.addEventListener('click', () => {
+    stopSpeech();
+    setActive(i);
+  });
+  container.appendChild(div);
+});
+
+function setActive(idx) {
+  document.querySelectorAll('.slide').forEach(el => el.classList.remove('active'));
+  currentIdx = idx;
+  const el = document.getElementById('slide-' + idx);
+  el.classList.add('active');
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  document.getElementById('cur-slide').textContent = 'Slide ' + slides[idx].num;
+  document.getElementById('cur-title').textContent = slides[idx].title;
+  document.getElementById('progress-fill').style.width = ((idx + 1) / slides.length * 100) + '%';
+  document.getElementById('progress-label').textContent = (idx + 1) + ' / ' + slides.length + ' slides';
+}
+
+function getSpeed() {
+  return parseFloat(document.getElementById('speed-range').value);
+}
+
+function speakSlide(idx, onEnd) {
+  if (!window.speechSynthesis) { alert("Votre navigateur ne supporte pas la synthèse vocale."); return; }
+  stopSpeech();
+  setActive(idx);
+  utterance = new SpeechSynthesisUtterance(slides[idx].text);
+  utterance.lang = 'fr-FR';
+  utterance.rate = getSpeed();
+  utterance.pitch = 1;
+
+  // Pick a French voice if available
+  const voices = window.speechSynthesis.getVoices();
+  const frVoice = voices.find(v => v.lang.startsWith('fr'));
+  if (frVoice) utterance.voice = frVoice;
+
+  utterance.onend = () => { if (onEnd) onEnd(); };
+  utterance.onerror = () => { if (onEnd) onEnd(); };
+  window.speechSynthesis.speak(utterance);
+}
+
+function playAll(startIdx) {
+  isPlaying = true;
+  document.getElementById('btn-play').textContent = '⏸ Pause';
+
+  function playNext(idx) {
+    if (!isPlaying || idx >= slides.length) {
+      isPlaying = false;
+      document.getElementById('btn-play').textContent = '▶ Lire tout';
+      return;
+    }
+    speakSlide(idx, () => {
+      if (isPlaying) setTimeout(() => playNext(idx + 1), 600);
+    });
+  }
+  playNext(startIdx);
+}
+
+function stopSpeech() {
+  isPlaying = false;
+  window.speechSynthesis.cancel();
+  document.getElementById('btn-play').textContent = '▶ Lire tout';
+}
+
+document.getElementById('btn-play').addEventListener('click', () => {
+  if (isPlaying) {
+    stopSpeech();
+  } else {
+    playAll(currentIdx);
+  }
+});
+
+document.getElementById('btn-stop').addEventListener('click', () => {
+  stopSpeech();
+  setActive(currentIdx);
+});
+
+document.getElementById('btn-prev').addEventListener('click', () => {
+  stopSpeech();
+  setActive(Math.max(0, currentIdx - 1));
+});
+
+document.getElementById('btn-next').addEventListener('click', () => {
+  stopSpeech();
+  setActive(Math.min(slides.length - 1, currentIdx + 1));
+});
+
+document.getElementById('speed-range').addEventListener('input', function() {
+  document.getElementById('speed-val').textContent = parseFloat(this.value).toFixed(2) + '×';
+  if (utterance) utterance.rate = parseFloat(this.value);
+});
+
+// Load voices async
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+setActive(0);
+</script>
+</body>
+</html>
